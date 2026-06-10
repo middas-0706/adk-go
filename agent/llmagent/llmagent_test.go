@@ -1230,7 +1230,7 @@ func TestLLMAgent_WorkflowIntegration_OutputPropagatesToSuccessor(t *testing.T) 
 	}, workflow.NodeConfig{})
 
 	edges := workflow.Chain(workflow.Start, agentNode, fnNode)
-	w, err := workflow.New("test_workflow", edges)
+	w, err := workflow.New("test_workflow", edges, workflow.WorkflowConfig{})
 	if err != nil {
 		t.Fatalf("failed to create workflow: %v", err)
 	}

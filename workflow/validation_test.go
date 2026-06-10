@@ -374,7 +374,7 @@ func TestValidateCycles(t *testing.T) {
 
 func TestValidateSubWorkflowNames(t *testing.T) {
 	// Create a valid sub-workflow
-	subWf, err := New("inner_wf", []Edge{{From: Start, To: newDummyNode("A")}})
+	subWf, err := New("inner_wf", []Edge{{From: Start, To: newDummyNode("A")}}, WorkflowConfig{})
 	if err != nil {
 		t.Fatalf("failed to create sub-workflow: %v", err)
 	}

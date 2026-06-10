@@ -51,6 +51,13 @@ type Node interface {
 	Run(ctx agent.InvocationContext, input any) iter.Seq2[*session.Event, error]
 }
 
+// StateParamsAware is implemented by nodes that bind their parameters
+// from ctx.state. Used by Workflow's static state-schema validation
+// to detect mismatches between declared state fields and node consumers.
+type StateParamsAware interface {
+  StateFieldNames() []string
+}
+
 // Route defines the interface for matching execution results to edges.
 type Route interface {
 	Matches(event *session.Event) bool
@@ -144,6 +151,9 @@ type Workflow struct {
 	// may run concurrently within a single Run invocation. 0
 	// (the default) means unlimited. Set via WithMaxConcurrency.
 	maxConcurrency int
+
+	// cfg holds the configuration for the workflow.
+	cfg WorkflowConfig
 }
 
 // Option configures a Workflow at construction time. Pass options
@@ -189,7 +199,7 @@ func WithMaxConcurrency(n int) Option {
 //
 // Optional Option values configure engine behaviour
 // (concurrency cap, etc.); see WithMaxConcurrency.
-func New(name string, edges []Edge, opts ...Option) (*Workflow, error) {
+func New(name string, edges []Edge, cfg WorkflowConfig, opts ...Option) (*Workflow, error) {
 	if err := validateNodes(edges); err != nil {
 		return nil, err
 	}
@@ -207,6 +217,9 @@ func New(name string, edges []Edge, opts ...Option) (*Workflow, error) {
 	if err := validateWorkflow(graph); err != nil {
 		return nil, err
 	}
+	if err := validateStateSchemaConsistency(graph, cfg.StateSchema); err != nil {
+		return nil, err
+	}
 	var o workflowOptions
 	for _, opt := range opts {
 		opt(&o)
@@ -215,6 +228,7 @@ func New(name string, edges []Edge, opts ...Option) (*Workflow, error) {
 		graph:          graph,
 		name:           name,
 		maxConcurrency: o.maxConcurrency,
+		cfg:            cfg,
 	}, nil
 }
 

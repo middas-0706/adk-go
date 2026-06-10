@@ -296,7 +296,7 @@ func runStateForAgent(t *testing.T, ctx context.Context, svc session.Service, a 
 	}
 	wf, err := workflow.New(nodeTestApp+"/"+a.Name(), []workflow.Edge{
 		{From: workflow.Start, To: node},
-	})
+	}, workflow.WorkflowConfig{})
 	if err != nil {
 		t.Fatalf("workflow.New() error = %v", err)
 	}

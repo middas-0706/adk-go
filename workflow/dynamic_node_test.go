@@ -207,7 +207,7 @@ func TestDynamicNode_Integration_ChildAndParentOutputs(t *testing.T) {
 		NodeConfig{},
 	)
 
-	w, err := New("root", Chain(Start, orch))
+	w, err := New("root", Chain(Start, orch), WorkflowConfig{})
 	if err != nil {
 		t.Fatalf("workflow.New: %v", err)
 	}

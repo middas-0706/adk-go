@@ -31,7 +31,7 @@ type WorkflowNode struct {
 // NewWorkflowNode creates a new node that runs a nested workflow.
 // It uses the same arguments as New to construct the inner workflow.
 func NewWorkflowNode(name string, edges []Edge) (*WorkflowNode, error) {
-	wf, err := New(name, edges)
+	wf, err := New(name, edges, WorkflowConfig{})
 	if err != nil {
 		return nil, err
 	}

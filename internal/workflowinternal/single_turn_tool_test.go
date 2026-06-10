@@ -233,7 +233,7 @@ func TestSingleTurnTool_Run_HappyPath(t *testing.T) {
 		workflow.NodeConfig{},
 	)
 
-	w, err := workflow.New("root", workflow.Chain(workflow.Start, orchestrator))
+	w, err := workflow.New("root", workflow.Chain(workflow.Start, orchestrator), workflow.WorkflowConfig{})
 	if err != nil {
 		t.Fatalf("workflow.New: %v", err)
 	}

@@ -48,7 +48,7 @@ func TestValidateNoTaskModeGraphNodes(t *testing.T) {
 		taskAgent := newAgent(t, "doer", llmagent.ModeTask)
 		if _, err := workflow.New("wf-task-root", []workflow.Edge{
 			{From: workflow.Start, To: newNode(t, taskAgent)},
-		}); err == nil {
+		}, workflow.WorkflowConfig{}); err == nil {
 			t.Fatal("expected error rejecting task-mode static node, got nil")
 		}
 	})
@@ -62,7 +62,7 @@ func TestValidateNoTaskModeGraphNodes(t *testing.T) {
 		if _, err := workflow.New("wf-task-downstream", []workflow.Edge{
 			{From: workflow.Start, To: chatNode},
 			{From: chatNode, To: taskNode},
-		}); err == nil {
+		}, workflow.WorkflowConfig{}); err == nil {
 			t.Fatal("expected error rejecting task-mode static node, got nil")
 		}
 	})
@@ -72,7 +72,7 @@ func TestValidateNoTaskModeGraphNodes(t *testing.T) {
 		chatAgent := newAgent(t, "chatter", llmagent.ModeChat)
 		if _, err := workflow.New("wf-chat", []workflow.Edge{
 			{From: workflow.Start, To: newNode(t, chatAgent)},
-		}); err != nil {
+		}, workflow.WorkflowConfig{}); err != nil {
 			t.Errorf("chat-mode agent should be accepted as static node; got %v", err)
 		}
 	})
@@ -82,7 +82,7 @@ func TestValidateNoTaskModeGraphNodes(t *testing.T) {
 		stAgent := newAgent(t, "responder", llmagent.ModeSingleTurn)
 		if _, err := workflow.New("wf-single-turn", []workflow.Edge{
 			{From: workflow.Start, To: newNode(t, stAgent)},
-		}); err != nil {
+		}, workflow.WorkflowConfig{}); err != nil {
 			t.Errorf("single_turn-mode agent should be accepted as static node; got %v", err)
 		}
 	})
@@ -92,7 +92,7 @@ func TestValidateNoTaskModeGraphNodes(t *testing.T) {
 		anyAgent := newAgent(t, "default", llmagent.ModeUnset)
 		if _, err := workflow.New("wf-default", []workflow.Edge{
 			{From: workflow.Start, To: newNode(t, anyAgent)},
-		}); err != nil {
+		}, workflow.WorkflowConfig{}); err != nil {
 			t.Errorf("mode-unset (chat) agent should be accepted as static node; got %v", err)
 		}
 	})

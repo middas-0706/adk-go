@@ -77,7 +77,7 @@ func (r *Runner) runNode(
 	}
 	wf, err := workflow.New(rootWorkflowName(r.appName, agentToRun), []workflow.Edge{
 		{From: workflow.Start, To: node},
-	})
+	}, workflow.WorkflowConfig{})
 	if err != nil {
 		yield(nil, fmt.Errorf("failed to build node workflow: %w", err))
 		return

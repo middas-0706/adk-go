@@ -68,7 +68,7 @@ func TestMaxConcurrency_Caps(t *testing.T) {
 		})
 	}
 
-	w, err := New("", fanOutFromStart(nodes), WithMaxConcurrency(cap))
+	w, err := New("", fanOutFromStart(nodes), WorkflowConfig{}, WithMaxConcurrency(cap))
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
@@ -120,7 +120,7 @@ func TestMaxConcurrency_PendingDispatchedFIFO(t *testing.T) {
 			defaultNodeConfig,
 		)
 	}
-	w, err := New("", fanOutFromStart(nodes), WithMaxConcurrency(1))
+	w, err := New("", fanOutFromStart(nodes), WorkflowConfig{}, WithMaxConcurrency(1))
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
@@ -173,7 +173,7 @@ func TestMaxConcurrency_RetryRespectsLimit(t *testing.T) {
 		defaultNodeConfig,
 	)
 
-	w, err := New("", fanOutFromStart([]Node{flaky, stable}), WithMaxConcurrency(1))
+	w, err := New("", fanOutFromStart([]Node{flaky, stable}), WorkflowConfig{}, WithMaxConcurrency(1))
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}

@@ -65,7 +65,7 @@ func newSeededMockCtx(t *testing.T) *MockInvocationContext {
 // Run; persistence is disabled.
 func mustNew(t *testing.T, edges []Edge) *Workflow {
 	t.Helper()
-	w, err := New("", edges)
+	w, err := New("", edges, WorkflowConfig{})
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}

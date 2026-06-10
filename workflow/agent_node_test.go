@@ -356,7 +356,7 @@ func TestAgentNode_WorkflowIntegration(t *testing.T) {
 				}, NodeConfig{})
 
 				edges := Chain(Start, seedNode, agentNode, functionNode)
-				w, err := New("test_workflow", edges)
+				w, err := New("test_workflow", edges, WorkflowConfig{})
 				if err != nil {
 					t.Fatalf("unexpected error: %v", err)
 				}

@@ -45,7 +45,7 @@ type Config struct {
 // FunctionResponse targeting the InterruptID emitted by the
 // paused node.
 func New(cfg Config) (agent.Agent, error) {
-	w, err := workflow.New(cfg.Name, cfg.Edges)
+	w, err := workflow.New(cfg.Name, cfg.Edges, workflow.WorkflowConfig{})
 	if err != nil {
 		return nil, err
 	}
